@@ -8,6 +8,8 @@ def twofa_required(view):
     def wrapper(request, *args, **kwargs):
         if not request.user.is_authenticated:
             return redirect(settings.LOGIN_URL)
+        if not request.user.need2fa:
+            return view(request, *args, **kwargs)
         if request.session.get('authy', False):
             return view(request, *args, **kwargs)
         return redirect('2fa')

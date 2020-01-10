@@ -8,6 +8,7 @@ class TwoFAUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=42, unique=True)
     email = models.EmailField()
     authy_id = models.CharField(max_length=12, null=True, blank=True)
+    need2fa = models.BooleanField(default=True)
 
     objects = TwoFAUserManager()
 

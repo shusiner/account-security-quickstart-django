@@ -56,6 +56,11 @@ def twofa(request):
 
 
 @login_required
+def testview(request):
+    return HttpResponse('ok')
+
+
+@login_required
 def token_sms(request):
     sms = authy_api.users.request_sms(request.user.authy_id, {'force': True})
     if sms.ok():

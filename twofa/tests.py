@@ -40,6 +40,24 @@ class TwoFATestCase(TestCase):
         # Assert
         self.assertRedirects(response, '/2fa/', fetch_redirect_response=False)
 
+    def test_need2fa_false_user_login(self):
+        # Arrange
+        TwoFAUser.objects.create_user(
+            username='test',
+            authy_id='fake',
+            password='test',
+            need2fa=False,
+        )
+        client = Client()
+        client.login(username='test', password='test')
+
+        # Act
+        response = client.get('/protected/')
+
+        # Assert
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.resolver_match.func, views.protected)
+
     def test_protected_displays_to_authy_user(self):
         # Arrange
         TwoFAUser.objects.create_user(

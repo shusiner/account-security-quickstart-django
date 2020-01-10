@@ -5,10 +5,17 @@ from django.contrib.auth import views as auth_views
 
 from twofa import views as twofa_views
 from phone_verification import views as verify_views
+from django.contrib import admin
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
+    
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+
+    
+
+    path('testview/', twofa_views.testview, name='testview'),
 
     path('register/', twofa_views.register, name='register'),
     path('2fa/', twofa_views.twofa, name='2fa'),
